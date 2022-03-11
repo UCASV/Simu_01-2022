@@ -51,7 +51,7 @@ class Array2D: public Array<type>{
             return cont;
         }
         void reverse() override {
-            cout << "->**WARNING: Operation not applicable to a two-dimensional array** :).\n";
+            cout << "->**WARNING: Operation not applicable to a two-dimensional array** :^).\n";
         }
         void show(bool verbose) override {
             if(verbose)
