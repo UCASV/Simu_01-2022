@@ -12,7 +12,7 @@ void insert(int* array, int pos, int value){
     array[pos] = value;
 }
 
-void eliminate(int* array){
+void destroy(int* array){
     free(array);
 }
 
@@ -46,6 +46,6 @@ int* reverse(int* array, int size){
     for (int i = size-1; i >= 0; i--){
         array2[ size - (i + 1) ] = array[i];
     }
-    eliminate(array);
+    destroy(array);
     return array2;
 }

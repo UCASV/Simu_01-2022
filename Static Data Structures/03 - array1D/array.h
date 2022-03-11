@@ -15,7 +15,7 @@ void insert(type* array, int pos, type value){
 }
 
 template <typename type>
-void eliminate(type* array){
+void destroy(type* array){
     free(array);
 }
 
@@ -53,6 +53,6 @@ type* reverse(type* array, int size){
     for (int i = size-1; i >= 0; i--){
         array2[ size - (i + 1) ] = array[i];
     }
-    eliminate(array);
+    destroy(array);
     return array2;
 }

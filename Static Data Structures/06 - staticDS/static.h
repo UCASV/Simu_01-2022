@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
+#include <string>
 
 using namespace std;
 
@@ -153,9 +153,9 @@ class Array2D: public Array<type>{
         void show(bool verbose) override {
             if(verbose)
                 for(int i = 0; i < nrows*ncols; i++)
-                    cout << "Element in cell with indices [ " << i/ncols+1 << ", " << i%ncols+1 << " ] is: " << matrix[i/ncols][i%ncols] << "\n";
+                    cout << "Element in cell [ " << i/ncols+1 << ", " << i%ncols+1 << " ] is: " << matrix[i/ncols][i%ncols] << "\n";
             else{
-                cout << "[ ";
+                cout << "[\n";
                 for(int i = 0; i < nrows; i++){
                     cout << "[ ";
                     for(int j = 0; j < ncols-1; j++)
@@ -180,7 +180,7 @@ class Arrays{
             (*array)->create(ref);
         }
         static void create(Array<type>** matrix, int nrows, int ncols){
-            ref.n = nrows, ref.m = ncols;
+            ref.n = nrows; ref.m = ncols;
             *matrix = new Array2D<type>();
             (*matrix)->create(ref);
         }

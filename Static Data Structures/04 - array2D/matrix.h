@@ -17,7 +17,7 @@ void insert(type** matrix, int row, int col, type value){
 }
 
 template <typename type>
-void eliminate(type** matrix, int nrows){
+void destroy(type** matrix, int nrows){
     for(int i = 0; i < nrows; i++)
         free(*(matrix+i));
     free(matrix);
