@@ -14,6 +14,7 @@ type** create(int nrows, int ncols){
 template <typename type>
 void insert(type** matrix, int row, int col, type value){
     matrix[row][col] = value;
+    //*(*(matrix+row)+col) = value;
 }
 
 template <typename type>

@@ -43,9 +43,18 @@ int* create_copy(int* original, int size){
 
 int* reverse(int* array, int size){
     int* array2 = (int*) malloc(sizeof(int)*size);
-    for (int i = size-1; i >= 0; i--){
+    for (int i = size-1; i >= 0; i--)
+        /*
+        Si n = 5,
+        Posiciones: 0 1 2 3 4
+        
+        4 -> 0 --> 5 - (4 + 1) = 0
+        3 -> 1 --> 5 - (3 + 1) = 1
+        2 -> 2 --> 5 - (2 + 1) = 2
+        1 -> 3 --> 5 - (1 + 1) = 3
+        0 -> 4 --> 5 - (0 + 1) = 4
+        */
         array2[ size - (i + 1) ] = array[i];
-    }
     destroy(array);
     return array2;
 }

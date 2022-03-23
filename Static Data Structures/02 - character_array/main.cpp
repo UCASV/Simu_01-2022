@@ -1,6 +1,11 @@
 #include "carray.h"
 
 char create_letter(int n){
+    /*
+    65, 66, 67, 68, ..., 90
+    65+0, 65+1, 65+2, 65+3, ..., 65+25
+    65 + dato, dato <- [0, 25]
+    */
     return char(65 + n % 26);
 }
 
