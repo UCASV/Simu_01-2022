@@ -1,10 +1,8 @@
 enum ndimensions {ONE_DIMENSION, TWO_DIMENSIONS};
 
-typedef struct Data{
-    int n;
-    int m;
-    Data(){};
-} Data;
+typedef struct Node{
+    
+} Node;
 
 #include "Array.h"
 #include "Array1D.h"
@@ -63,7 +61,7 @@ class Arrays{
         static void destroy(Array<type>* var){
             var->destroy();
         }
-        
+
         static void search(Array<type>* var, type value, bool* result){
             *result = var->search(value);
         }

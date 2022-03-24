@@ -1,5 +1,5 @@
 template <typename type>
-class Array1D: public Array<type>{
+class DSSL: public DS<type>{
     private:
         type* array;
         int size;

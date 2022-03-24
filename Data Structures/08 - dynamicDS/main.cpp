@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#include "headers/staticDS.h"
+#include "headers/dynamicDS.h"
 
 template <typename type>
 Data Arrays<type>::ref = Data();
