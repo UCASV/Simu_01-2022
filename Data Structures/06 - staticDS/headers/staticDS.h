@@ -63,7 +63,7 @@ class Arrays{
         static void destroy(Array<type>* var){
             var->destroy();
         }
-
+        
         static void search(Array<type>* var, type value, bool* result){
             *result = var->search(value);
         }
