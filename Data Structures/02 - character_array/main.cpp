@@ -105,7 +105,7 @@ int main(void){
 
     cout << "Mostrando resultados de búsqueda de dato existente y dato no existente...\n";
     cout << "Resultado de búsqueda de dato existente: " << search(array, n, create_letter(5)) << "\n"; //Sé que la letra obtenida a partir del número 5 está en el arreglo
-    cout << "Resultado de búsqueda de dato no existente: " << search(array, n, '#') << "\n"; //Sé que el caracter '#' no está en el arreglo
+    cout << "Resultado de búsqueda de dato no existente: " << search(array, n, '#') << "\n";           //Sé que el caracter '#' no está en el arreglo
 
     cout << "Provocando una repetición de dato en el arreglo... ";
     //Esto es para hacer más representativa la prueba de conteo
