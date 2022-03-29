@@ -59,7 +59,7 @@ int main(void){
     cout << "OK\n";
 
     cout << "Probando conteo de elementos en arreglo...\n";
-    //Cuento ocurrencias del dato que ahora es repetido
+    //Cuento ocurrencias del dato que ahora está repetido
     cout << "El resultado del conteo es: " << count(array, n, 3) << "\n";
 
     cout << "Probando creación de copia del arreglo... ";

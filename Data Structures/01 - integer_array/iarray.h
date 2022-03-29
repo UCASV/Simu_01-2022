@@ -73,7 +73,7 @@ bool search(int* array, int size, int value){
 int count(int* array, int size, int value){
     //Se inicializa un contador de suma
     int cont = 0;
-    //Recorro el arreglo de entero
+    //Recorro el arreglo de enteros
     for(int i = 0; i < size; i++)
         //Verifico si hay ocurrencia en la posición
         //actual del arreglo
@@ -144,7 +144,7 @@ int* reverse(int* array, int size){
 
         Es decir, a partir de la posición del arreglo
         original, se le suma 1 y el resultado se le resta
-        a 5, y con estose obtiene la posición requerida en
+        a 5, y con esto se obtiene la posición requerida en
         el nuevo arreglo.
 
         Generalizando:
