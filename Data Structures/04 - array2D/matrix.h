@@ -35,6 +35,7 @@ type** create(int nrows, int ncols){
                           [ int ]  [ int ]  [ int ]
                           [ int ]  [ int ]  [ int ]
     */
+   
     //Se construye primero el arreglo principal:
 
     //Casting a (type**) ya que el bloque de memoria

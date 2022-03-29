@@ -152,6 +152,7 @@ int main(void){
     cout << "Repetición del conteo utilizando la copia...\n";
     cout << "El resultado del conteo en la copia es: " << count<int>(matrix2, filas, columnas, 3) << "\n";
 
+    
     cout << "\n======================================\n\n";
 
     //Se realizan ahora las pruebas con un tipo de dato distinto, en este
