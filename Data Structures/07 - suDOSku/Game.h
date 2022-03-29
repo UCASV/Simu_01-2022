@@ -38,6 +38,7 @@ class Game{
         static void readBoard(string filename){
             char c;
             ifstream file(filename);
+            //Se puede verificar si el archivo se pudo abrir exitosamente
             for(int i = 0; i < 9*9; i++){
                 file >> c;
                 Arrays<char>::insert(board,i/9,i%9,c);
@@ -66,7 +67,7 @@ class Game{
                 case MAIN:  return Q >= QUIT && Q <= TAB2;
                 case BOARD: return Q >= RAGEQUIT && Q <= ERASE;
                 default:
-                    return vRange(Q,1,9) && vRange(I,1,3) && vRange(J,1,3) && (m==CELLI)?vRange(V,1,9):true;
+                    return vRange(Q,1,9) && vRange(I,1,3) && vRange(J,1,3) && ( (m==CELLI)?vRange(V,1,9):true );
             }
         }
         static void getUserInput(mode m, string msg){
@@ -113,6 +114,7 @@ class Game{
             getUserInput(CELLE,"Ingrese la celda en la que desea borrar dato en el formato \"Q I J\": ");
             int i = (I-1)+3*((Q-1)/3);
             int j = (J-1)+3*((Q-1)%3);
+            //TODO: validar que la celda a borrar contiene número
             Arrays<char>::insert(board, i, j, '_');
             cont--;
             showBoard();

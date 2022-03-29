@@ -2,10 +2,15 @@
 
 int main(void){
     int n = 10;
+    //Arreglo utilizado en las pruebas
     int* array;
+    //Segundo arreglo utilizado en la prueba
+    //de creción de copia
     int* array2;
 
     cout << "Probando creación de arreglo... ";
+    //Quemado a 10 posiciones ya que es solo para
+    //propósitos ilustrativos
     array = create(n);
     cout << "OK\n";
 
@@ -36,6 +41,8 @@ int main(void){
 
     cout << "Llenando arreglo de valores... ";
     for(int i = 0; i < n; i++)
+        //Se coloca directamente el valor del iterador
+        //una vez más, ya que es puramente ilustrativo
         insert(array,i,i);
     cout << "OK\n";
 
@@ -43,14 +50,16 @@ int main(void){
     cout << array[0] << " - " << array[1] << " - " << array[2] << "\n";
 
     cout << "Mostrando resultados de búsqueda de dato existente y dato no existente...\n";
-    cout << "Resultado de búsqueda de dato existente: " << search(array, n, 5) << "\n";
-    cout << "Resultado de búsqueda de dato no existente: " << search(array, n, 45) << "\n";
+    cout << "Resultado de búsqueda de dato existente: " << search(array, n, 5) << "\n";     //Sé que el 5 está en el arreglo
+    cout << "Resultado de búsqueda de dato no existente: " << search(array, n, 45) << "\n"; //Sé que el 45 no está en el arreglo
 
     cout << "Provocando una repetición de dato en el arreglo... ";
+    //Esto es para hacer más representativa la prueba de conteo
     insert(array,7,3);
     cout << "OK\n";
 
     cout << "Probando conteo de elementos en arreglo...\n";
+    //Cuento ocurrencias del dato que ahora es repetido
     cout << "El resultado del conteo es: " << count(array, n, 3) << "\n";
 
     cout << "Probando creación de copia del arreglo... ";
