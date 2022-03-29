@@ -35,7 +35,7 @@ type** create(int nrows, int ncols){
                           [ int ]  [ int ]  [ int ]
                           [ int ]  [ int ]  [ int ]
     */
-   
+
     //Se construye primero el arreglo principal:
 
     //Casting a (type**) ya que el bloque de memoria
@@ -139,7 +139,7 @@ int count(type** matrix, int nrows, int ncols, type value){
     for(int i = 0; i < nrows; i++)
         for(int j = 0; j < ncols; j++)
             //Verifico si hay ocurrencia en la celda
-            //actual del arreglo
+            //actual de la matriz
             if(matrix[i][j] == value)
                 //Si hay ocurrencia, actualizo el contador.
                 //No hay break, ya que me interesa saber
