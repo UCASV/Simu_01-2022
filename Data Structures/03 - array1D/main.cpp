@@ -57,12 +57,12 @@ int main(void){
     //Arreglo utilizado en las pruebas con tipo int
     int* array;
     //Arreglo utilizado en la prueba
-    //de creción de copia con tipo int
+    //de creación de copia con tipo int
     int* array2;
     //Arreglo utilizado en las pruebas con tipo char
     char* array3;
     //Arreglo utilizado en la prueba
-    //de creción de copia con tipo char
+    //de creación de copia con tipo char
     char* array4;
 
     cout << "Probando creación de arreglo de enteros... ";

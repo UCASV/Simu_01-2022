@@ -5,7 +5,7 @@ int main(void){
     //Arreglo utilizado en las pruebas
     int* array;
     //Segundo arreglo utilizado en la prueba
-    //de creción de copia
+    //de creación de copia
     int* array2;
 
     cout << "Probando creación de arreglo... ";

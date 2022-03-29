@@ -121,7 +121,7 @@ type* create_copy(type* original, int size){
         //el dato encontrado en el arreglo original.
         new_one[i] = original[i];
     //Se retorna la dirección del bloque de memoria
-    //correspondiente al nuevo arreglo de enteros.
+    //correspondiente al nuevo arreglo.
     return new_one;
 }
 
