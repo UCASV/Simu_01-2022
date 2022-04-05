@@ -157,7 +157,7 @@ class Arrays{
 
         /*
             Función que retorna las dimensiones del arreglo de un objeto
-            Array de tipo <type> enviado por referencia.
+            Array de tipo <type>.
 
             Se recibe por referencia una variable <size> donde se almacenará
             la longitud del arreglo.
@@ -172,7 +172,7 @@ class Arrays{
         }
         /*
             Función que retorna las dimensiones de la matriz de un objeto
-            Array de tipo <type> enviado por referencia.
+            Array de tipo <type>.
 
             Se reciben por referencia una variable <rows> donde se almacenará
             el número de filas de la matriz y una variable <columns> donde

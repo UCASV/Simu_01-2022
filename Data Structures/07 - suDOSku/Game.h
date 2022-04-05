@@ -600,6 +600,22 @@ class Game{
                 */
                 if( !(k/3+1 == I && k%3+1 == J) && c1 == c ) return false;
             }
+
+            //Versión alterna del segundo for:
+            
+            //Esta versión amplía el ahorro de trabajo incluso para la extracción del dato ya
+            //existente, es decir, si se está en la celda que el jugador ha pedido modificar,
+            //entonces no se hace nada en lo absoluto:
+            /*
+            for(int k = 0; k < 3*3; k++){
+                if( !(k/3 == I-1 && k%3 == J-1) ){
+                    Arrays<char>::extract(board, k/3 + 3*((Q-1)/3), k%3 + 3*((Q-1)%3), &c1);
+                
+                    if( c1 == c) return false;
+                }
+            }
+            */
+
             //Si se sobrevive a ambos 'for', entonces no se rompe ninguna regla y se retorna true
             return true;
         }

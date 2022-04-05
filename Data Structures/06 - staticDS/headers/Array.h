@@ -58,7 +58,8 @@ class Array{
 
         /*
             Función para insertar un valor <value> de tipo <type>
-            en la posición <pos> de un arreglo de datos de tipo <type>.
+            en la posición <pos> de una estructura de datos estática
+            de tipo <type>.
 
             <pos> es de tipo "struct Data":
                 - Si la estructura es un arreglo, <pos> contendrá
