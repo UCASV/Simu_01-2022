@@ -1,5 +1,5 @@
 template <typename type>
-class DST: public dynamicDS<type>,insertable<type>,measurable {
+class DST: public dynamicDS<type>,public insertable<type>,public measurable {
     private:
         NodeT<type>* T;
 

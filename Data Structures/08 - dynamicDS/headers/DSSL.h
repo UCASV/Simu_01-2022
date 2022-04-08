@@ -132,29 +132,6 @@ class DSSL: public DS<type>{
             L = temp;
         }
 
-
-/*         void insert(int pos, type value){
-            NodeSL<type>* temp = ( NodeSL<type>* ) createNode();
-            temp->data = value;
-
-            NodeSL<type>* Lcopy = L;
-
-            int cont = 0;
-            while(Lcopy != NULL){
-                if(cont == pos-1) break;
-
-                Lcopy = Lcopy->next;
-                cont++;
-            }
-
-            temp->next = Lcopy->next;
-            Lcopy->next = temp;
-
-        } */
-
-
-
-
         /*
             Función para insertar un valor <value> de tipo <type>
             en la posición indicada por <pos> de la lista enlazada simple
@@ -186,6 +163,27 @@ class DSSL: public DS<type>{
             //nodo
             Lcopy->next = temp;
         }
+        //Versión alterna de la función anterior
+        /*
+        void insert(int pos, type value){
+            NodeSL<type>* temp = ( NodeSL<type>* ) createNode();
+            temp->data = value;
+
+            NodeSL<type>* Lcopy = L;
+
+            int cont = 0;
+            while(Lcopy != NULL){
+                if(cont == pos-1) break;
+
+                Lcopy = Lcopy->next;
+                cont++;
+            }
+
+            temp->next = Lcopy->next;
+            Lcopy->next = temp;
+
+        }
+        */
 
         /*
             Función para extraer un dato de tipo <type> de la

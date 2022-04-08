@@ -1,5 +1,5 @@
 template <typename T>
-class DSDL: public dynamicDS<T>,insertable<T>,measurable,positionable<T>,reversible {
+class DSDL: public dynamicDS<T>,public insertable<T>,public measurable,public positionable<T>,public reversible {
     private:
         NodeDL<T>* L;
 

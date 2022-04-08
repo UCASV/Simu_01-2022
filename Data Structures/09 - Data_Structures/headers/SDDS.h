@@ -54,12 +54,27 @@ class SDDS{
     private:
         static Data ref;
 
-        static int count_nodes_aux(NodeT<type>* tree){
-            if(tree == NULL) return 0;
-            return 1 + count_nodes_aux(tree->left) + count_nodes_aux(tree->right);
+        static void insert_aux(insertable<type>* var, type value){
+            var->insert(value);
         }
 
-        static void copy_tree(NodeT<type>* O, DS<type>** clone){
+        static void insert_pos_aux(positionable<type>* var, int n, type value){
+            var->insert(n, value);
+        }
+
+        static void extract_aux(positionable<type>* var, int pos, type* res){
+            *res = var->extract(pos);
+        }
+
+        static void extension_aux(measurable* var, int* n){
+            *n = var->extension();
+        }
+
+        static void reverse_aux(reversible* var){
+            var->reverse();
+        }
+
+        static void copy_tree(NodeT<type>* O, DST<type>** clone){
             if(O == NULL) return;
             (*clone)->insert(O->data);
             copy_tree(O->left, clone);
@@ -67,7 +82,7 @@ class SDDS{
         }
 
         static void extractNode(DS<type>* G, int id, NodeG<type>** node){
-            NodeG<type>* graph = (NodeG<type>*) G->getRoot();
+            NodeG<type>* graph = (NodeG<type>*) ( (DSG<type>*) G )->getRoot();
             while(graph != NULL){
                 if(graph->id == id) break;
                 graph = graph->next;
@@ -76,7 +91,7 @@ class SDDS{
         }
 
         static void insert_connections(DS<type>* G, int id, NodeSL<NodeG<type>*>* C){
-            NodeG<type>* graph = (NodeG<type>*) G->getRoot();
+            NodeG<type>* graph = (NodeG<type>*) ( (DSG<type>*) G )->getRoot();
             while(graph != NULL){
                 if(graph->id == id){
                     graph->connections = C;
@@ -84,18 +99,6 @@ class SDDS{
                 }
                 graph = graph->next;
             }
-        }
-
-        static void define_connections_aux(DS<type>* G, int id, DS<int>* C){
-            DSSL<NodeG<int>*>* graph_nodes = new DSSL<NodeG<int>*>();
-            NodeG<int>* temp;
-            DSSL<int>* L = (DSSL<int>*) C;
-            for(int i= 0; i < L->extension(); i++){
-                extractNode(G,L->extract(i),&temp);
-                graph_nodes->insert(temp);
-            }
-            insert_connections(G,id, (NodeSL<NodeG<int>*>*) graph_nodes->getRoot());
-            delete graph_nodes;
         }
 
     public:
@@ -154,35 +157,53 @@ class SDDS{
         }
 
         static void extension(DS<type>* matrix, int* rows, int* columns){
-            ref = matrix->extension();
+            ref = ( ( DSM<type>* ) matrix )->extension();
             *rows = ref.n;
             *columns = ref.m;
         }
         static void extension(DS<type>* var, int* n){
-            *n = var->extension();
+            category cat = var->getCategory();
+            switch(cat){
+                case ARRAY: {
+                    extension_aux( ((DSA<type>*) var), n);
+                    break;
+                }
+                case SINGLE_LINKED_LIST: {
+                    extension_aux( ((DSSL<type>*) var), n);
+                    break;
+                }
+                case DOUBLE_LINKED_LIST: {
+                    extension_aux( ((DSDL<type>*) var), n);
+                    break;
+                }
+                case BINARY_SEARCH_TREE: {
+                    extension_aux( ((DST<type>*) var), n);
+                    break;
+                }
+                case GRAPH: {
+                    extension_aux( ((DSG<type>*) var), n);
+                    break;
+                }
+            }
         }
 
-        static void insert(DS<type>* var, int row, int column, type value){
-            DSM<type>* matrix = (DSM<type>*) var;
+        static void insert(DS<type>* matrix, int row, int column, type value){
             ref.n = row; ref.m = column;
-            matrix->insert(ref,value);
+            ( ( DSM<type>* ) matrix )->insert(ref,value);
         }
         static void insert(DS<type>* var, type value){
             category cat = var->getCategory();
             switch(cat){
                 case SINGLE_LINKED_LIST: {
-                    DSSL<type>* SL = (DSSL<type>*) var;
-                    SL->insert(value);
+                    insert_aux( ((DSSL<type>*) var), value);
                     break;
                 }
                 case DOUBLE_LINKED_LIST: {
-                    DSDL<type>* DL = (DSDL<type>*) var;
-                    DL->insert(value);
+                    insert_aux( ((DSDL<type>*) var), value);
                     break;
                 }
                 case BINARY_SEARCH_TREE: {
-                    DST<type>* T = (DST<type>*) var;
-                    T->insert(value);
+                    insert_aux( ((DST<type>*) var), value);
                     break;
                 }
             }
@@ -191,23 +212,19 @@ class SDDS{
             category cat = var->getCategory();
             switch(cat){
                 case ARRAY: {
-                    DSA<type>* A = (DSA<type>*) var;
-                    A->insert(n,value);
+                    insert_pos_aux( ((DSA<type>*) var), n, value);
                     break;
                 }
                 case SINGLE_LINKED_LIST: {
-                    DSSL<type>* SL = (DSSL<type>*) var;
-                    SL->insert(n,value);
+                    insert_pos_aux( ((DSSL<type>*) var), n, value);
                     break;
                 }
                 case DOUBLE_LINKED_LIST: {
-                    DSDL<type>* DL = (DSDL<type>*) var;
-                    DL->insert(n,value);
+                    insert_pos_aux( ((DSDL<type>*) var), n, value);
                     break;
                 }
                 case GRAPH: {
-                    DSG<type>* G = (DSG<type>*) var;
-                    G->insert(n,value);
+                    insert_pos_aux( ((DSG<type>*) var), n, value);
                     break;
                 }
             }
@@ -215,95 +232,122 @@ class SDDS{
 
         static void extract(DS<type>* matrix, int row, int column, type* result){
             ref.n = row; ref.m = column;
-            *result = matrix->extract(ref);
+            *result = ( ( DSM<type>* ) matrix )->extract(ref);
         }
         static void extract(DS<type>* var, int pos, type* res){
-            *res = var->extract(pos);
+            category cat = var->getCategory();
+            switch(cat){
+                case ARRAY: {
+                    extract_aux( ((DSA<type>*) var), pos, res);
+                    break;
+                }
+                case SINGLE_LINKED_LIST: {
+                    extract_aux( ((DSSL<type>*) var), pos, res);
+                    break;
+                }
+                case DOUBLE_LINKED_LIST: {
+                    extract_aux( ((DSDL<type>*) var), pos, res);
+                    break;
+                }
+                case GRAPH: {
+                    extract_aux( ((DSG<type>*) var), pos, res);
+                    break;
+                }
+            }
         }
 
         static void reverse(DS<type>* var){
-            var->reverse();
+            category cat = var->getCategory();
+            switch(cat){
+                case ARRAY: {
+                    reverse_aux( ((DSA<type>*) var) );
+                    break;
+                }
+                case SINGLE_LINKED_LIST: {
+                    reverse_aux( ((DSSL<type>*) var) );
+                    break;
+                }
+                case DOUBLE_LINKED_LIST: {
+                    reverse_aux( ((DSDL<type>*) var) );
+                    break;
+                }
+            }
         }
 
         //Utilidades externas a la familia de clases 'DS'
-        
-        static void count_nodes(DS<type>* T, int* n){
-            if(T->getCategory() == BINARY_SEARCH_TREE){
-                NodeT<type>* tree = (NodeT<type>*) T->getRoot();
-                *n = count_nodes_aux(tree);
-            }else cout << "N/A\n";
-        }
 
-        static void define_connections(DS<type>* G, int M[5][4]){
-            if(G->getCategory() == GRAPH){
-                DS<int>* indices;
-                create(&indices,SINGLE_LINKED_LIST);
-                for(int i = 0; i < 5; i++){
-                    for(int j = 1; j < 4; j++)
-                        if(M[i][j] != -99) insert(indices,M[i][j]);
-                    define_connections_aux(G,M[i][0],indices);
-                    indices->destroy();
-                }
-                delete indices;
-            }else cout << "N/A\n";
+        static void define_connections(DS<type>* G, int id, DS<int>* C){
+            DSSL<NodeG<int>*>* graph_nodes = new DSSL<NodeG<int>*>();
+            NodeG<int>* temp;
+            DSSL<int>* L = (DSSL<int>*) C;
+            for(int i= 0; i < L->extension(); i++){
+                extractNode(G,L->extract(i),&temp);
+                graph_nodes->insert(temp);
+            }
+            insert_connections(G,id, (NodeSL<NodeG<int>*>*) graph_nodes->getRoot());
+            delete graph_nodes;
         }
 
         static void create_copy(DS<type>* original, DS<type>** clone){
             switch(original->getCategory()){
                 case ARRAY: {
                     *clone = new DSA<type>();
-                    int n = original->extension();
-                    (*clone)->create(n);
-                    for(int i = 0; i < n; i++)
-                        (*clone)->insert(i, original->extract(i));
+                    int n;
+                    extension_aux( ((DSA<type>*) original), &n);
+                    ((DSA<type>*) *clone)->create(n);
+                    for(int i = 0; i < n; i++){
+                        int v;
+                        extract_aux(((DSA<type>*) original),i,&v);
+                        insert_pos_aux(((DSA<type>*) *clone),i,v);
+                    }
                     break;
                 }
                 case MATRIX: {
                     *clone = new DSM<type>();
-                    Data dim = original->getDim();
-                    (*clone)->create(dim);
+                    Data dim = ((DSM<type>*) original)->extension();
+                    ((DSM<type>*) *clone)->create(dim);
                     for(int i = 0; i < dim.n*dim.m; i++){
                         ref.n = i/dim.m;
                         ref.m = i%dim.m;
-                        (*clone)->insert(ref, original->extract(ref));
+                        ((DSM<type>*) *clone)->insert(ref, ((DSM<type>*) original)->extract(ref));
                     }
                     break;
                 }
                 case SINGLE_LINKED_LIST: {
                     *clone = new DSSL<type>();
-                    (*clone)->create();
-                    NodeSL<type>* SL = (NodeSL<type>*) original->getRoot();
+                    ((DSSL<type>*) *clone)->create();
+                    NodeSL<type>* SL = (NodeSL<type>*) ((DSSL<type>*) original)->getRoot();
                     while(SL != NULL){
-                        (*clone)->insert(SL->data);
+                        insert_aux( ((DSSL<type>*) *clone), SL->data);
                         SL = SL->next;
                     }
-                    (*clone)->reverse();
+                    reverse_aux( ((DSSL<type>*) *clone) );
                     break;
                 }
                 case DOUBLE_LINKED_LIST: {
                     *clone = new DSDL<type>();
-                    (*clone)->create();
-                    NodeDL<type>* DL = (NodeDL<type>*) original->getRoot();
+                    ((DSDL<type>*) *clone)->create();
+                    NodeDL<type>* DL = (NodeDL<type>*) ((DSDL<type>*) original)->getRoot();
                     while(DL != NULL){
-                        (*clone)->insert(DL->data);
+                        insert_aux( ((DSDL<type>*) *clone), DL->data);
                         DL = DL->next;
                     }
-                    (*clone)->reverse();
+                    reverse_aux( ((DSDL<type>*) *clone) );
                     break;
                 }
                 case BINARY_SEARCH_TREE: {
                     *clone = new DST<type>();
-                    (*clone)->create();
-                    NodeT<type>* T = (NodeT<type>*) original->getRoot();
-                    copy_tree(T,clone);
+                    ((DST<type>*) *clone)->create();
+                    NodeT<type>* T = (NodeT<type>*) ((DST<type>*) original)->getRoot();
+                    copy_tree(T, (DST<type>**) clone);
                     break; 
                 }
                 case GRAPH: {
                     *clone = new DSG<type>();
-                    (*clone)->create();
-                    NodeG<type>* G = (NodeG<type>*) original->getRoot();
+                    ((DSG<type>*) *clone)->create();
+                    NodeG<type>* G = (NodeG<type>*) ((DSG<type>*) original)->getRoot();
                     while(G != NULL){
-                        (*clone)->insert(G->id,G->data);
+                        insert_pos_aux( ((DSG<type>*) *clone), G->id, G->data);
                         NodeSL<NodeG<type>*>* O = G->connections;
                         DSSL<NodeG<type>*>* L = new DSSL<NodeG<type>*>();
                         L->create();
@@ -312,7 +356,7 @@ class SDDS{
                             O = O->next;
                         }
                         L->reverse();
-                        insert(*clone,G->id,(NodeSL<NodeG<type>*>* ) L->getRoot());
+                        insert_connections(*clone,G->id,(NodeSL<NodeG<type>*>* ) L->getRoot());
                         G = G->next;
                         delete L;
                     }

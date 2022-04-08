@@ -1,5 +1,5 @@
 template <typename T>
-class DSG: public dynamicDS<T>,measurable,positionable<T> {
+class DSG: public dynamicDS<T>,public measurable,public positionable<T> {
     private:
         NodeG<T>* G;
 

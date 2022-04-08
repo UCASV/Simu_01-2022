@@ -1,5 +1,5 @@
 template <typename T>
-class DSA: public staticDS_1D<T>,measurable,positionable<T>,reversible {
+class DSA: public staticDS_1D<T>,public measurable,public positionable<T>,public reversible {
     private:
         T* array;
         int size;
