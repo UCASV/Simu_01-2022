@@ -1,13 +1,65 @@
+/*
+    Implementación para una estructura de datos estática biidimensional,
+    es decir, para una matriz.
+
+    Se define la implementación como independiente del tipo de
+    dato a almacenar mediante el uso de template.
+*/
 template <typename T>
+/*
+    En C++, la implementación se maneja como una herencia,
+    de modo que DSM hereda de staticDS_2D, ya que es la que provee
+    su funcionalidad básica.
+
+    El indicador de visibilidad 'public' indica que DSM tendrá
+    acceso a todos los métodos de staticDS_2D manteniendo su
+    visibilidad original.
+
+    Dado que staticDS_2D es un template, debe indicarse
+    el tipo de dato a utilizar mediante un "meta-parámetro". Sin
+    embargo, el tipo de dato aún no ha sido definido, ya que DSM
+    también es un template, por lo que el "meta-parámetro" es el
+    tipo de dato genérico local <T>.
+*/
 class DSM: public staticDS_2D<T> {
+    /*
+        Como atributo privado local se manejará la matriz de datos tipo
+        <T> como tal. Se declara un puntero doble ya que se manejará
+        por dirección el bloque de memoria correspondiente.
+
+        Recordando, la estructura en memoria corresponde a un arreglo
+        principal de punteros simples, donde cada uno apunta a un arreglo
+        que corresponde a una de las filas de la matriz:
+
+        int** matriz -->  [ int* ]-[ int* ]-[ int* ]     //Arreglo principal
+                             |        |        |
+                             v        v        v
+                          [ int ]  [ int ]  [ int ]
+                          [ int ]  [ int ]  [ int ]
+                          [ int ]  [ int ]  [ int ]
+
+        Los otros atributos privados locales son el número de filas <nrows>
+        y el número de columnas <ncols> de la matriz, como datos acompañantes
+        para controlar procesos de recorrido.
+    */
     private:
         T** matrix;
         int nrows, ncols;
 
+    //Se procede a la implementación como tal de los métodos de la interfaz
+    //override indica la respectiva sobreescritura de cada método
     public:
+        /*
+            Función que retorna la categoría de la matriz local.
+
+            La función hace uso de la enumeración category
+            definida en "SDDS.h".
+        */
         category getCategory() override {
+            //Se retorna MATRIX ya que localmente manejamos una matriz
             return MATRIX;
         }
+        //TODO: Continuar la comentada desde aquí
         void destroy() override {
             for(int i = 0; i < nrows; i++)
                 free(*(matrix+i));

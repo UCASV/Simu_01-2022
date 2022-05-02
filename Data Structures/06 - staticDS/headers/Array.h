@@ -111,9 +111,6 @@ class Array{
             Función que determina la cantidad de ocurrencias de un valor
             <value> de tipo <type> en una estructura de datos estática
             de tipo <type>.
-            
-            Se retorna true si se encuentra, false en caso
-            contrario.
         */
         virtual int count(type value) = 0;
 
