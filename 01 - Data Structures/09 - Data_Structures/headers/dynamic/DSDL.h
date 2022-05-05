@@ -1,18 +1,24 @@
+/*
+    Implementación para una lista enlazada doble.
+
+    Se define la implementación como independiente del tipo de dato
+    a almacenar mediante el uso de template.
+*/
 template <typename T>
-class DSSL: public dynamicDS<T>,public insertable<T>,public measurable,public positionable<T>,public reversible {
+class DSDL: public dynamicDS<T>,public insertable<T>,public measurable,public positionable<T>,public reversible {
     private:
-        NodeSL<T>* L;
+        NodeDL<T>* L;
 
         void* createNode() override {
-            return malloc(sizeof(NodeSL<T>));
+            return malloc(sizeof(NodeDL<T>));
         }
 
     public:
         category getCategory() override {
-            return SINGLE_LINKED_LIST;
+            return DOUBLE_LINKED_LIST;
         }
         void destroy() override {
-            NodeSL<T>* temp;
+            NodeDL<T>* temp;
             while(L != NULL){
                 temp = L;
                 L = L->next;
@@ -21,7 +27,7 @@ class DSSL: public dynamicDS<T>,public insertable<T>,public measurable,public po
         }
         bool search(T value) override {
             bool ans = false;
-            NodeSL<T>* Lcopy = L;
+            NodeDL<T>* Lcopy = L;
             while(Lcopy != NULL){
                 if(Lcopy->data == value){
                     ans = true;
@@ -33,7 +39,7 @@ class DSSL: public dynamicDS<T>,public insertable<T>,public measurable,public po
         }
         int count(T value) override {
             int cont = 0;
-            NodeSL<T>* Lcopy = L;
+            NodeDL<T>* Lcopy = L;
             while(Lcopy != NULL){
                 if(Lcopy->data == value) cont++;
                 Lcopy = Lcopy->next;
@@ -45,7 +51,7 @@ class DSSL: public dynamicDS<T>,public insertable<T>,public measurable,public po
                 cout << "La lista está vacía.\n";
                 return;
             }
-            NodeSL<T>* Lcopy = L;
+            NodeDL<T>* Lcopy = L;
             if(verbose){
                 int index = 1;
                 while(Lcopy != NULL){
@@ -55,7 +61,7 @@ class DSSL: public dynamicDS<T>,public insertable<T>,public measurable,public po
                 }       
             }else{
                 while(Lcopy != NULL){
-                    cout << Lcopy->data << " -> ";
+                    cout << Lcopy->data << " <-> ";
                     Lcopy = Lcopy->next;
                 }
                 cout << "NULL\n";
@@ -71,50 +77,60 @@ class DSSL: public dynamicDS<T>,public insertable<T>,public measurable,public po
 
         void insert(T value) override {
             //Se asume inserción al inicio de la lista
-            NodeSL<T>* temp = (NodeSL<T>*) createNode();
+            NodeDL<T>* temp = (NodeDL<T>*) createNode();
             temp->data = value;
+            temp->prev = NULL;
             if(L == NULL) temp->next = NULL;
-            else          temp->next = L;
+            else{
+                L->prev = temp;
+                temp->next = L;
+            }
             L = temp;
         }
-        
+
         int extension() override {
             int cont = 0;
-            NodeSL<T>* Lcopy = L;
+            NodeDL<T>* Lcopy = L;
             while(Lcopy != NULL){
                 cont++;
                 Lcopy = Lcopy->next;
             }
             return cont;
         }
-        
+
         void insert(int pos, T value) override {
             //Se asume pre-validación de una posición válida
-            NodeSL<T>* temp = (NodeSL<T>*) createNode();
+            NodeDL<T>* temp = (NodeDL<T>*) createNode();
             temp->data = value;
 
-            NodeSL<T>* Lcopy = L;
+            NodeDL<T>* Lcopy = L;
             for(int i = 0; i < pos-1; i++) Lcopy = Lcopy->next;
 
+            temp->prev = Lcopy;
             temp->next = Lcopy->next;
-            Lcopy->next = temp;
+            Lcopy->next->prev = temp;
+            Lcopy->next       = temp;
         }
         T extract(int pos) override {
             //Se asume pre-validación de una posición válida
-            NodeSL<T>* Lcopy = L;
+            NodeDL<T>* Lcopy = L;
             for(int i = 0; i < pos; i++) Lcopy = Lcopy->next;
             return Lcopy->data;
         }
 
         void reverse() override {
-            NodeSL<T>* new_one = NULL;
-            NodeSL<T>* Lcopy = L;
-            NodeSL<T>* temp;
+            NodeDL<T>* new_one = NULL;
+            NodeDL<T>* Lcopy = L;
+            NodeDL<T>* temp;
             while(Lcopy != NULL){
-                temp = (NodeSL<T>*) createNode();
+                temp = (NodeDL<T>*) createNode();
                 temp->data = Lcopy->data;
+                temp->prev = NULL;
                 if(new_one == NULL) temp->next = NULL;
-                else                temp->next = new_one;
+                else{
+                    new_one->prev = temp;
+                    temp->next = new_one;
+                }
                 new_one = temp;
                 Lcopy = Lcopy->next;
             }
