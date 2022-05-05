@@ -13,19 +13,19 @@ template <typename T>
         - insertable, ya que permite la inserción de datos sin
           necesidad de indexamiento.
         - measurable, ya que es posible obtener la longitud de una
-          lista enlazada simple.
+          lista enlazada doble.
         - positionable, ya que es posible indexar una lista enlazada
-          simple por posición.
+          doble por posición.
         - reversible, ya que es posible invertir el contenido de una
-          lista enlazada simple.
+          lista enlazada doble.
 
-    El indicador de visibilidad 'public' indica que DSSL tendrá
+    El indicador de visibilidad 'public' indica que DSDL tendrá
     acceso a todos los métodos de las interfaces que implementa,
     manteniendo la visibilidad original de todas ellas.
 
     Dado que varias de las interfaces son templates, debe indicarse
     el tipo de dato a utilizar mediante un "meta-parámetro". Sin
-    embargo, el tipo de dato aún no ha sido definido, ya que DSSL
+    embargo, el tipo de dato aún no ha sido definido, ya que DSDL
     también es un template, por lo que el "meta-parámetro" es el
     tipo de dato genérico local <T>.
 */

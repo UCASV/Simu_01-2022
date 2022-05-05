@@ -1,3 +1,9 @@
+/*
+    Implementación para un grafo.
+
+    Se define la implementación como independiente del tipo de dato
+    a almacenar mediante el uso de template.
+*/
 template <typename T>
 class DSG: public dynamicDS<T>,public measurable,public positionable<T> {
     private:
