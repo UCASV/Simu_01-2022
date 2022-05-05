@@ -222,7 +222,7 @@ class Array2D: public Array<type>{
 
         /*
             Función para insertar un valor <value> de tipo <type>
-            en la posición <pos> de un arreglo de datos de tipo <type>.
+            en la posición <pos> de una matriz de datos de tipo <type>.
 
             <pos> es de tipo "struct Data", y como localmente se maneja
             una matriz, se asume que contiene dos datos, que serán el
