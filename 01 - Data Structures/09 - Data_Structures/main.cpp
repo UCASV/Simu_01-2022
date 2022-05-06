@@ -236,7 +236,7 @@ int main(void){
     SDDS<int>::count(T,33,&n);
     cout << "El resultado del conteo en el árbol resultó: " << n << "\n";
     SDDS<int>::count(G,6,&n);
-    cout << "El resultado del conteo en el grafo resultó: " << n << "\n";
+    cout << "El resultado del conteo en el grafo resultó: " << n << "\n\n";
 
     /*========== Se crean copias de las estructuras ========*/
     SDDS<int>::create_copy(A,&A2);
@@ -260,7 +260,7 @@ int main(void){
 
     /*========== Se invierten las estructuras ========*/
     SDDS<int>::reverse(A2);
-    cout << "\nSe muestra la copia del arreglo copia invertida:\n";
+    cout << "\nSe muestra la copia del arreglo invertida:\n";
     SDDS<int>::show(A2,false);
     SDDS<int>::reverse(SL2);
     cout << "Se muestra la copia de la lista enlazada simple invertida:\n";
