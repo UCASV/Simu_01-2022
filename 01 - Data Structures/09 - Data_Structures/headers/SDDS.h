@@ -878,50 +878,208 @@ class SDDS{
                 }
                 
                 case SINGLE_LINKED_LIST: {
+                    //Se instancia la copia creando un objeto DSSL
+                    //haciendo uso del operador de contenido
                     *clone = new DSSL<type>();
+
+                    //Se invoca el método create() de la copia, haciéndole
+                    //casting a DSSL
                     ((DSSL<type>*) *clone)->create();
+
+                    /*
+                      Se copia la referencia al primer nodo de la lista del
+                      objeto original para no perderla durante el recorrido,
+                      haciéndole casting a DSSL.
+                      
+                      Para obtener la dirección del primer nodo de la lista del
+                      objeto original invocamos el método getRoot().
+                      
+                      Como getRoot() retorna la dirección de un Nodo genérico
+                      para estructuras de datos dinámicas, hacemos casting a la
+                      dirección de un Nodo de una lista enlazada simple de datos
+                      tipo <type>.
+                    */
                     NodeSL<type>* SL = (NodeSL<type>*) ((DSSL<type>*) original)->getRoot();
+
+                    //Recorremos la lista del objeto original hasta el final
                     while(SL != NULL){
+                        //Se invoca a insert_aux() enviando el objeto copia
+                        //casteado a DSSL, junto con el dato actual en la lista
                         insert_aux( ((DSSL<type>*) *clone), SL->data);
+
+                        //Se avanza al siguiente nodo de la lista
                         SL = SL->next;
                     }
+
+                    //Dado que los datos se insertan al inicia de la lista, los
+                    //datos del objeto original han quedado en orden inverso, por
+                    //lo que invocamos el método reverse() del objeto copia
+                    //haciéndole casting a DSSL
                     reverse_aux( ((DSSL<type>*) *clone) );
                     break;
                 }
+
                 case DOUBLE_LINKED_LIST: {
+                    //Se instancia la copia creando un objeto DSDL
+                    //haciendo uso del operador de contenido
                     *clone = new DSDL<type>();
+
+                    //Se invoca el método create() de la copia, haciéndole
+                    //casting a DSDL
                     ((DSDL<type>*) *clone)->create();
+
+                    /*
+                      Se copia la referencia al primer nodo de la lista del
+                      objeto original para no perderla durante el recorrido,
+                      haciéndole casting a DSDL.
+                      
+                      Para obtener la dirección del primer nodo de la lista del
+                      objeto original invocamos el método getRoot().
+                      
+                      Como getRoot() retorna la dirección de un Nodo genérico
+                      para estructuras de datos dinámicas, hacemos casting a la
+                      dirección de un Nodo de una lista enlazada doble de datos
+                      tipo <type>.
+                    */
                     NodeDL<type>* DL = (NodeDL<type>*) ((DSDL<type>*) original)->getRoot();
+                    
+                    //Recorremos la lista del objeto original hasta el final
                     while(DL != NULL){
+                        //Se invoca a insert_aux() enviando el objeto copia
+                        //casteado a DSDL, junto con el dato actual en la lista
                         insert_aux( ((DSDL<type>*) *clone), DL->data);
+
+                        //Se avanza al siguiente nodo de la lista
                         DL = DL->next;
                     }
+
+                    //Dado que los datos se insertan al inicia de la lista, los
+                    //datos del objeto original han quedado en orden inverso, por
+                    //lo que invocamos el método reverse() del objeto copia
+                    //haciéndole casting a DSDL
                     reverse_aux( ((DSDL<type>*) *clone) );
                     break;
                 }
+
                 case BINARY_SEARCH_TREE: {
+                    //Se instancia la copia creando un objeto DST
+                    //haciendo uso del operador de contenido
                     *clone = new DST<type>();
+
+                    //Se invoca el método create() de la copia, haciéndole
+                    //casting a DST
                     ((DST<type>*) *clone)->create();
+
+                    /*
+                      Se copia la referencia a la raíz del árbol del
+                      objeto original para no perderla durante el recorrido,
+                      haciéndole casting a DST.
+                      
+                      Para obtener la dirección de la raíz del árbol del
+                      objeto original invocamos el método getRoot().
+                      
+                      Como getRoot() retorna la dirección de un Nodo genérico
+                      para estructuras de datos dinámicas, hacemos casting a la
+                      dirección de un Nodo de un árbol binario de búsqueda de datos
+                      tipo <type>.
+                    */
                     NodeT<type>* T = (NodeT<type>*) ((DST<type>*) original)->getRoot();
+
+                    //Se envía el árbol del objeto original y el objeto copia,
+                    //casteado a DST, a la función auxiliar para copiar árboles
                     copy_tree(T, (DST<type>**) clone);
                     break; 
                 }
+
                 case GRAPH: {
+                    //Se instancia la copia creando un objeto DSG
+                    //haciendo uso del operador de contenido
                     *clone = new DSG<type>();
+
+                    //Se invoca el método create() de la copia, haciéndole
+                    //casting a DSG
                     ((DSG<type>*) *clone)->create();
+
+                    /*
+                      Se copia la referencia al primer nodo del listado de
+                      nodos del grafo del objeto original, casteado a DSG,
+                      para no perderla durante el recorrido.
+                      
+                      Para obtener la dirección del primer nodo del listado de
+                      nodos del grafo del objeto original invocamos el método
+                      getRoot().
+                      
+                      Como getRoot() retorna la dirección de un Nodo genérico
+                      para estructuras de datos dinámicas, hacemos casting a la
+                      dirección de un Nodo de una grafo de datos tipo <type>.
+                    */
                     NodeG<type>* G = (NodeG<type>*) ((DSG<type>*) original)->getRoot();
+
+                    //Recorremos el listado de nodos del grafo hasta el final
                     while(G != NULL){
+                        //Se invoca a insert_pos_aux() enviando el objeto original
+                        //casteado a DSG, el id del nodo actual grafo y los datos
+                        //del nodo actual del grafo
                         insert_pos_aux( ((DSG<type>*) *clone), G->id, G->data);
+
+                        /*
+                            Se copia la referencia al primer nodo de la lista de
+                            conexiones del nodo actual del grafo del objeto original
+                            para no perderla durante el recorrido.
+                            
+                            El listado de conexiones del nodo actual se obtiene
+                            directamente del mismo, es su campo 'connections'.
+
+                            Recordar:
+                                El listado de conexiones es una lista enlazada simple
+                                que contiene punteros a Nodos de Grafo de tipo <type>.
+                        */
                         NodeSL<NodeG<type>*>* O = G->connections;
+
+                        //Se crea, a manera de variable auxiliar, un objeto DSSL para
+                        //una lista enlazada simple de datos puntero a Nodo de grafo de
+                        //datos tipo <type>
                         DSSL<NodeG<type>*>* L = new DSSL<NodeG<type>*>();
+
+                        //Inicializamos la lista enlazada simple de la variable auxiliar
                         L->create();
+
+                        //Recorremos las conexiones del nodo actual del grafo del objeto
+                        //original hasta el final
                         while(O != NULL){
+                            //La conexión actual se almacena en la lista de la variable
+                            //auxiliar
                             L->insert(O->data);
+
+                            //Se avanza a la conexión siguiente
                             O = O->next;
                         }
+
+                        //Dado que los datos se insertan al inicia de la lista, las
+                        //conexiones del nodo actual del grafo del objeto original han
+                        //quedado en orden inverso, por lo que invocamos el método
+                        //reverse() de la variable auxiliar
                         L->reverse();
+
+                        /*Enviamos a la función para inserción de conexiones:
+                            - El objeto copia.
+                            - El identificador del nodo actual, para que se sepa a qué
+                              nodo del grafo del objeto copia se le agregarán conexiones.
+                            - El nodo inicial de la lista de la variable auxiliar, la cual
+                              contiene las conexiones del nodo actual.
+                              Para esto se hace uso de su método getRoot(), que como retorna
+                              la dirección de un nodo genérico de estructura de datos dinámica,
+                              se le hace casting a la dirección de un nodo de una lista enlazada
+                              simple que contiene punteros a nodos de grafo con datos de tipo
+                              <type>.                                                           */
                         insert_connections(*clone,G->id,(NodeSL<NodeG<type>*>* ) L->getRoot());
+
+                        //Se avanza al siguiente nodo del grafo.
+                        //Dado que el orden de los nodos en el listado principal del grafo no es
+                        //relevante, no es necesario invocar el método reverse()
                         G = G->next;
+
+                        //Se libera el espacio de memoria utilizado por la variable auxiliar
                         delete L;
                     }
                     break;

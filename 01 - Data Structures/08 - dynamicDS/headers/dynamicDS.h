@@ -750,7 +750,7 @@ class Dynamic_Structures{
                             para no perderla durante el recorrido.
                             
                             El listado de conexiones del nodo actual se obtiene
-                            directamente del nodo actual, es su campo 'connections'.
+                            directamente del mismo, es su campo 'connections'.
 
                             Recordar:
                                 El listado de conexiones es una lista enlazada simple
