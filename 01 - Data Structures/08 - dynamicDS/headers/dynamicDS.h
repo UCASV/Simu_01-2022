@@ -404,7 +404,8 @@ class Dynamic_Structures{
             Función que retorna la extensión de la estructura
             de datos dinámica de un objeto DS de tipo <type>.
 
-            El concepto de extensión de la estructura de datos dinámica:
+            El concepto de extensión depende de la estructura de
+            datos dinámica:
                 - Si la estructura es un árbol, su extensión es
                   su altura.
                 - Si la estructura es un grafo, su extensión es
@@ -486,7 +487,7 @@ class Dynamic_Structures{
         
         /*
             Función que invierte el contenido de una estructura de datos
-            dinámica de un objeto DS detipo <type>.
+            dinámica de un objeto DS de tipo <type>.
         */
         static void reverse(DS<type>* var){
             //Se invoca el método reverse() del objeto var
@@ -600,7 +601,7 @@ class Dynamic_Structures{
         */
         static void create_copy(DS<type>* original, DS<type>** clone){
             //Se determina si el tipo de estructura de datos dinámica a copiar
-            //invocando el método category() del objeto original
+            //invocando el método getCategory() del objeto original
             switch(original->getCategory()){
 
                 //Si se trata de una lista enlaza simple
