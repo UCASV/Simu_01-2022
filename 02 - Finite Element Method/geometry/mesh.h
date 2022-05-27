@@ -81,6 +81,7 @@ class Mesh{
                 SDDS<FEMNode*>::extract(nodes,i,&node);
                 if(node->get_ID() == ID) return node;
             }
+            return NULL;
         }
 
         void add_element(Element* elem){
@@ -94,6 +95,7 @@ class Mesh{
                 SDDS<Element*>::extract(elements,i,&elem);
                 if(elem->get_ID() == ID) return elem;
             }
+            return NULL;
         }
 
         void add_dirichlet_cond(FEMNode* node,int i){

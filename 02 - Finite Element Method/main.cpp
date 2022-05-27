@@ -3,13 +3,16 @@
 #include <fstream>
 #include <cmath>
 
+using namespace std;
+
 #include "data_structures/SDDS.h"
 #include "geometry/mesh.h"
 #include "gid/input_output.h"
 #include "utilities/math_utilities.h"
 #include "utilities/FEM_utilities.h"
 
-using namespace std;
+template <typename T>
+Data SDDS<T>::ref = Data();
 
 int main(int argc, char** argv){
     DS<float> *T, *T_full, *T_N, *M, *K, *b;
@@ -111,16 +114,16 @@ int main(int argc, char** argv){
 
     /*====================== ************* =======================*/
 
-    SDDS<float>::destroy(T); SDDS<float>::destroy(T_full); SDDS<float>::destroy(T_N);
+    /*SDDS<float>::destroy(T); SDDS<float>::destroy(T_full); SDDS<float>::destroy(T_N);
     SDDS<int>::destroy(dirichlet_indices); SDDS<int>::destroy(neumann_indices);
-    int length;
+    //int length;
     SDDS<DS<float>*>::extension(Result,&length);
     for(int i = 0; i < length; i++){
         DS<float>* temp;
         SDDS<DS<float>*>::extract(Result,i,&temp);
         SDDS<float>::destroy(temp);
     }
-    SDDS<DS<float>*>::destroy(Result);
+    SDDS<DS<float>*>::destroy(Result);*/
     
     return 0;
 }

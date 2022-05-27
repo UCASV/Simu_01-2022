@@ -82,5 +82,6 @@ class Math{
 
         static DS<float>* inverse(DS<float>* matrix){
             //TODO: inverse procedure
+            return matrix; //Para mientras
         }
 };
