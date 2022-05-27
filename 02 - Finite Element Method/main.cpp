@@ -1,7 +1,7 @@
 #include <iostream>
-//#include <stdlib.h>
 #include <string>
 #include <fstream>
+#include <cmath>
 
 #include "data_structures/SDDS.h"
 #include "geometry/mesh.h"
@@ -28,10 +28,10 @@ int main(int argc, char** argv){
     
     SDDS<float>::create(&T, free_nodes, 1, MATRIX);
     SDDS<float>::create(&T_full, nnodes, 1, MATRIX);
+    SDDS<float>::create(&T_N, free_nodes, 1, MATRIX);
     
     Math::init(T, G->get_parameter(INITIAL_TEMPERATURE));
 
-    SDDS<float>::create(&T_N, free_nodes, 1, MATRIX);
     SDDS<int>::create(&neumann_indices, G->get_quantity(NUM_NEUMANN_BCs), ARRAY);
     G->get_condition_indices(neumann_indices, NEUMANN);
     FEM::built_T_Neumann(T_N, G->get_parameter(NEUMANN_VALUE), neumann_indices);
@@ -39,7 +39,8 @@ int main(int argc, char** argv){
     SDDS<int>::create(&dirichlet_indices, G->get_quantity(NUM_DIRICHLET_BCs), ARRAY);
     G->get_condition_indices(dirichlet_indices, DIRICHLET);
 
-    FEM::build_full_T(T_full, T, G->get_parameter(DIRICHLET_VALUE), dirichlet_indices);
+    float Td = G->get_parameter(DIRICHLET_VALUE);
+    FEM::build_full_T(T_full, T, Td, dirichlet_indices);
     SDDS<DS<float>*>::insert(Result,T_full);
 
     float t = G->get_parameter(INITIAL_TIME);
@@ -74,11 +75,22 @@ int main(int argc, char** argv){
             FEM::assembly(b, temp, current_elem, false);
         }
 
-        Math::sum(b,T_N,b);
+        Math::sum_in_place(b,T_N);
 
-        //TODO: Apply Dirichlet
-        //TODO: Euler bifurcation
-        //TODO: Result update
+        FEM::apply_Dirichlet(nnodes, free_nodes, b, K, Td, dirichlet_indices);
+        FEM::apply_Dirichlet(nnodes, free_nodes, K, dirichlet_indices);
+        FEM::apply_Dirichlet(nnodes, free_nodes, M, dirichlet_indices);
+
+        DS<float>* temp = Math::product(K,T);
+        Math::product_in_place(temp, -1);
+        Math::sum_in_place(b, temp);
+        Math::sum_in_place(b, T_N);
+        Math::product_in_place(b, dt);
+        Math::sum_in_place(T, Math::product( Math::inverse(M), b ) );
+        SDDS<float>::destroy(temp);
+
+        FEM::build_full_T(T_full, T, Td, dirichlet_indices);
+        SDDS<DS<float>*>::insert(Result,T_full);
 
         SDDS<float>::destroy(M); SDDS<DS<float>*>::destroy(M_locals);
         SDDS<float>::destroy(K); SDDS<DS<float>*>::destroy(K_locals);
@@ -87,7 +99,28 @@ int main(int argc, char** argv){
         t = t + dt;
     }
 
-    //TODO: write_output_file
+    /*====================== ************* =======================*/
+
+    int length;
+    SDDS<DS<float>*>::extension(Result,&length);
+    for(int i = 0; i < length; i++){
+        DS<float>* temp;
+        SDDS<DS<float>*>::extract(Result,i,&temp);
+        SDDS<float>::show(temp, false);
+    }
+
+    /*====================== ************* =======================*/
+
+    SDDS<float>::destroy(T); SDDS<float>::destroy(T_full); SDDS<float>::destroy(T_N);
+    SDDS<int>::destroy(dirichlet_indices); SDDS<int>::destroy(neumann_indices);
+    int length;
+    SDDS<DS<float>*>::extension(Result,&length);
+    for(int i = 0; i < length; i++){
+        DS<float>* temp;
+        SDDS<DS<float>*>::extract(Result,i,&temp);
+        SDDS<float>::destroy(temp);
+    }
+    SDDS<DS<float>*>::destroy(Result);
     
     return 0;
 }

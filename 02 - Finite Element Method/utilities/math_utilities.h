@@ -16,15 +16,71 @@ class Math{
                     SDDS<float>::insert(matrix,i,j,value);
         }
 
-        static void sum(DS<float>* A, DS<float>* B, DS<float>* C){
+        static void sum_in_place(DS<float>* A, DS<float>* B){
             int nrows, ncols;
-            SDDS<float>::extension(C,&nrows,&ncols);
+            SDDS<float>::extension(A,&nrows,&ncols);
             for(int i = 0; i < nrows; i++)
                 for(int j = 0; j < ncols; j++){
                     float Aij, Bij;
                     SDDS<float>::extract(A,i,j,&Aij);
                     SDDS<float>::extract(B,i,j,&Bij);
-                    SDDS<float>::insert(C,i,j,Aij+Bij);
+                    SDDS<float>::insert(A,i,j,Aij+Bij);
                 }
+        }
+
+        static void product_in_place(DS<float>* A, float factor){
+            int nrows, ncols;
+            SDDS<float>::extension(A,&nrows,&ncols);
+            for(int i = 0; i < nrows; i++)
+                for(int j = 0; j < ncols; j++){
+                    float Aij;
+                    SDDS<float>::extract(A,i,j,&Aij);
+                    SDDS<float>::insert(A,i,j,Aij*factor);
+                }
+        }
+
+        static DS<float>* product(DS<float>* A, DS<float>* B){
+            int p, q, r;
+            float Aij, Bij, Cij;
+            DS<float>* C;
+
+            SDDS<float>::extension(A,&p,&q);
+            SDDS<float>::extension(B,&q,&r);
+            SDDS<float>::create(&C,p,r,MATRIX);
+
+            for(int i = 0; i < p; i++)
+                for(int j = 0; j < r; j++){
+                    Cij = 0;
+                    for(int k = 0; k < q; k++){
+                        SDDS<float>::extract(A,i,k,&Aij);
+                        SDDS<float>::extract(B,k,j,&Bij);
+
+                        Cij += Aij*Bij;
+                    }
+                    SDDS<float>::insert(C,i,j,Cij);
+                }
+
+            return C;
+        }
+
+        static void transpose(DS<float>* trans_M, DS<float>* M){
+            int nrows, ncols;
+            SDDS<float>::extension(M,&nrows,&ncols);
+            for(int i = 0; i < nrows; i++)
+                for(int j = 0; j < ncols; j++){
+                    float Aij;
+                    SDDS<float>::extract(M,i,j,&Aij);
+                    SDDS<float>::insert(trans_M,j,i,Aij);
+                }
+        }
+
+        static void add_to_cell(DS<float>* A, int i, int j, float value){
+            float Aij;
+            SDDS<float>::extract(A,i,j,&Aij);
+            SDDS<float>::insert(A,i,j,Aij+value);
+        }
+
+        static DS<float>* inverse(DS<float>* matrix){
+            //TODO: inverse procedure
         }
 };
