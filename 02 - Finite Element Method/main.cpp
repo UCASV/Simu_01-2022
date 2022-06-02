@@ -150,11 +150,19 @@ int main(int argc, char** argv){
     SDDS<DS<float>*>::reverse(Result);
     write_output_file(Result, argv[1]);
 
-    cout << "OK\n\nFinalizing process... ";
+    cout << "OK\n\nCleaning up and finalizing process... ";
 
-    /*SDDS<float>::destroy(T); SDDS<float>::destroy(T_full); SDDS<float>::destroy(T_N);
-    SDDS<int>::destroy(dirichlet_indices); SDDS<int>::destroy(neumann_indices);*/
-
+    SDDS<float>::destroy(T); SDDS<float>::destroy(T_full); SDDS<float>::destroy(T_N);
+    SDDS<int>::destroy(dirichlet_indices); SDDS<int>::destroy(neumann_indices);
+    int length;
+    SDDS<DS<float>*>::extension(Result, &length);
+    for(int i = 0; i < length; i++){
+        DS<float>* temp;
+        SDDS<DS<float>*>::extract(Result,i,&temp);
+        SDDS<float>::destroy(temp);
+    }
+    SDDS<DS<float>*>::destroy(Result);
+    
     cout << "OK\n\nHave a nice day!! :D\n";
     
     return 0;
