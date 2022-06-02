@@ -53,6 +53,12 @@ class FEM{
             }
         }
 
+        static void append_results(DS<DS<float>*>* R, DS<float>* T){
+            DS<float>* copy;
+            SDDS<float>::create_copy(T,&copy);
+            SDDS<DS<float>*>::insert(R,copy);
+        }
+
         static DS<float>* calculate_local_M(float rho, float Cp, Element* e){
             DS<float>* M;
             SDDS<float>::create(&M,3,3,MATRIX);
@@ -118,8 +124,8 @@ class FEM{
             SDDS<int>::create(&indices,3,ARRAY);
 
             SDDS<int>::insert(indices,0, elem->get_Node(0)->get_ID() - 1);
-            SDDS<int>::insert(indices,0, elem->get_Node(1)->get_ID() - 1);
-            SDDS<int>::insert(indices,0, elem->get_Node(2)->get_ID() - 1);
+            SDDS<int>::insert(indices,1, elem->get_Node(1)->get_ID() - 1);
+            SDDS<int>::insert(indices,2, elem->get_Node(2)->get_ID() - 1);
             
             if(is_2D){
                 float temp;
@@ -146,42 +152,42 @@ class FEM{
             SDDS<int>::destroy(indices);
         }
 
-        static void apply_Dirichlet(int nnodes, int free_nodes, DS<float>* b, DS<float>* K, float Td, DS<int>* dirichlet_indices){
+        static void apply_Dirichlet(int nnodes, int free_nodes, DS<float>** b, DS<float>* K, float Td, DS<int>* dirichlet_indices){
             DS<float> *new_b, *T_D;
             SDDS<float>::create(&new_b, free_nodes, 1, MATRIX);
             SDDS<float>::create(&T_D, free_nodes, 1, MATRIX);
 
-            bool res_i, res_j;
-            float row1 = 0, row2 = 0, b_i;
+            bool bres;
+            float row_index = 0, temp, acum = 0;
+
             for(int i = 0; i < nnodes; i++){
-                SDDS<int>::search(dirichlet_indices,i+1,&res_i);
-                if(!res_i){
-                    SDDS<float>::extract(b,i,0,&b_i);
-                    SDDS<float>::insert(new_b,row1,0,b_i);
-                    row1++;
-                }else{
-                    float acum = 0, temp;
+                SDDS<int>::search(dirichlet_indices,i+1,&bres);
+                if(!bres){
+                    SDDS<float>::extract(*b,i,0,&temp);
+                    SDDS<float>::insert(new_b,row_index,0,temp);
+
                     for(int j = 0; j < nnodes; j++){
-                        SDDS<int>::search(dirichlet_indices,j+1,&res_j);
-                        if(res_j){
+                        SDDS<int>::search(dirichlet_indices,j+1,&bres);
+                        if(bres){
                             SDDS<float>::extract(K,i,j,&temp);
                             acum += Td*temp;
+                            SDDS<float>::insert(T_D,row_index,0,-acum);
                         }
-                        SDDS<float>::insert(T_D,row2,0,-acum);
-                        row2++;
                     }
+
+                    row_index++;
                 }
             }
 
             Math::sum_in_place(new_b,T_D);
 
             SDDS<float>::destroy(T_D);
-            SDDS<float>::destroy(b);
+            SDDS<float>::destroy(*b);
 
-            b = new_b;
+            *b = new_b;
         }
 
-        static void apply_Dirichlet(int nnodes, int free_nodes, DS<float>* matrix, DS<int>* dirichlet_indices){
+        static void apply_Dirichlet(int nnodes, int free_nodes, DS<float>** matrix, DS<int>* dirichlet_indices){
             DS<float>* new_matrix;
             SDDS<float>::create(&new_matrix, free_nodes, free_nodes, MATRIX);
 
@@ -193,7 +199,7 @@ class FEM{
                     for(int j = 0; j < nnodes; j++){
                         SDDS<int>::search(dirichlet_indices,j+1,&res_j);
                         if(!res_j){
-                            SDDS<float>::extract(matrix,i,j,&Mij);
+                            SDDS<float>::extract(*matrix,i,j,&Mij);
                             SDDS<float>::insert(new_matrix,row,column,Mij);
                             column++;
                         }
@@ -203,7 +209,7 @@ class FEM{
                 }
             }
 
-            SDDS<float>::destroy(matrix);
-            matrix = new_matrix;
+            SDDS<float>::destroy(*matrix);
+            *matrix = new_matrix;
         }
 };

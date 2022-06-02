@@ -70,8 +70,8 @@ class Mesh{
             return qty;
         }
 
-        void add_node(FEMNode* node){
-            SDDS<FEMNode*>::insert(nodes,node);
+        void add_node(FEMNode* node, int pos){
+            SDDS<FEMNode*>::insert(nodes,pos,node);
         }
         FEMNode* get_node(int ID){
             int n;
@@ -84,8 +84,8 @@ class Mesh{
             return NULL;
         }
 
-        void add_element(Element* elem){
-            SDDS<Element*>::insert(elements,elem);
+        void add_element(Element* elem, int pos){
+            SDDS<Element*>::insert(elements,pos,elem);
         }
         Element* get_element(int ID){
             int n;

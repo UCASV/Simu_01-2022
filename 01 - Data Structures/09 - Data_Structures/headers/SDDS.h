@@ -836,7 +836,7 @@ class SDDS{
                         //objeto original casteado a DSA, el iterador <i> como
                         //la posición deseada, a fin de almacenar el
                         //resultado en <v>
-                        int v;
+                        type v;
                         extract_aux(((DSA<type>*) original),i,&v);
 
                         //Se invoca el método insert_pos_aux() enviando el
