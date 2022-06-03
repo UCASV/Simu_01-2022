@@ -3,7 +3,7 @@
     durante el proceso de aplicación del Método de los Elementos Finitos.
 
     La clase hace uso de la clase utilitaria SDDS para la manipulación de
-    estructuras de datos, así como de la clase DS para la definición de
+    estructuras de datos, así como también de la clase DS para la definición de
     dichas estructuras.
 */
 class Math{

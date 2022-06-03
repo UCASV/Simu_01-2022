@@ -25,7 +25,7 @@ enum condition {DIRICHLET,NEUMANN};
     utilización de todos estos aspectos y datos geométricos.
 
     Adicionalmente, la clase hace uso de la clase utilitaria SDDS
-    para la manipulación de estructuras de datos, así como de la clase
+    para la manipulación de estructuras de datos, así como también de la clase
     DS para la definición de dichas estructuras.
 */
 class Mesh{
