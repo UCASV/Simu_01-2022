@@ -13,178 +13,178 @@ ComponentNames "T"
 Values
 1     100
 2     100
-3     51.7188
-4     45.4205
-5     41.1705
+3     47.6456
+4     50.87
+5     51.9997
 End values
 Result "Temperature" "Load Case 1" 3 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     53.9561
-4     40.6623
-5     31.7033
+3     44.9838
+4     51.8505
+5     54.3185
 End values
 Result "Temperature" "Load Case 1" 4 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     56.7862
-4     35.701
-5     21.5164
+3     41.9724
+4     52.9559
+5     57.0018
 End values
 Result "Temperature" "Load Case 1" 5 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     60.2937
-4     30.5089
-5     10.5163
+3     38.5637
+4     54.2026
+5     60.1009
 End values
 Result "Temperature" "Load Case 1" 6 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     64.5746
-4     25.0545
-5     -1.403
+3     34.703
+4     55.6093
+5     63.6743
 End values
 Result "Temperature" "Load Case 1" 7 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     69.7386
-4     19.3018
-5     -14.3621
+3     30.3286
+4     57.197
+5     67.7888
 End values
 Result "Temperature" "Load Case 1" 8 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     75.9103
-4     13.2095
-5     -28.498
+3     25.3697
+4     58.9899
+5     72.5203
 End values
 Result "Temperature" "Load Case 1" 9 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     83.2319
-4     6.73078
-5     -43.9668
+3     19.7463
+4     61.0151
+5     77.9552
 End values
 Result "Temperature" "Load Case 1" 10 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     91.865
-4     -0.187778
-5     -60.9457
+3     13.367
+4     63.3038
+5     84.1921
 End values
 Result "Temperature" "Load Case 1" 11 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     101.994
-4     -7.60716
-5     -79.6363
+3     6.12782
+4     65.8913
+5     91.3429
 End values
 Result "Temperature" "Load Case 1" 12 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     113.827
-4     -15.5969
-5     -100.268
+3     -2.08938
+4     68.8175
+5     99.5354
 End values
 Result "Temperature" "Load Case 1" 13 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     127.605
-4     -24.2361
-5     -123.102
+3     -11.4192
+4     72.1283
+5     108.915
 End values
 Result "Temperature" "Load Case 1" 14 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     143.597
-4     -33.615
-5     -148.434
+3     -22.0147
+4     75.8754
+5     119.646
 End values
 Result "Temperature" "Load Case 1" 15 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     162.114
-4     -43.8365
-5     -176.603
+3     -34.0502
+4     80.1179
+5     131.919
 End values
 Result "Temperature" "Load Case 1" 16 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     183.507
-4     -55.0178
-5     -207.992
+3     -47.724
+4     84.9227
+5     145.946
 End values
 Result "Temperature" "Load Case 1" 17 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     208.177
-4     -67.2922
-5     -243.038
+3     -63.2617
+4     90.3663
+5     161.972
 End values
 Result "Temperature" "Load Case 1" 18 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     236.579
-4     -80.8119
-5     -282.238
+3     -80.9202
+4     96.5354
+5     180.275
 End values
 Result "Temperature" "Load Case 1" 19 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     269.234
-4     -95.75
-5     -326.158
+3     -100.992
+4     103.529
+5     201.17
 End values
 Result "Temperature" "Load Case 1" 20 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     306.73
-4     -112.304
-5     -375.441
+3     -123.809
+4     111.459
+5     225.019
 End values
 Result "Temperature" "Load Case 1" 21 Scalar OnNodes
 ComponentNames "T"
 Values
 1     100
 2     100
-3     349.741
-4     -130.698
-5     -430.818
+3     -149.75
+4     120.453
+5     252.23
 End values
