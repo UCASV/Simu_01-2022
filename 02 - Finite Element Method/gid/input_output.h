@@ -133,35 +133,55 @@ void read_input_file(Mesh* G, char* filename){
     Se recibe <filename> como el nombre del archivo de salida sin extensión.
 */
 void write_output_file(DS<DS<float>*>* R, char* filename){
+    //Se anexa al nombre del archivo de salida su extensión, y se abre para escritura
     string output_file = add_extension(filename, ".post.res");
     ofstream postResFile( output_file );
 
+    //Se verifica si la apertura del archivo fue exitosa
     if( postResFile.is_open() ){
+        //Se coloca el encabezado de archivo tal como lo solicita GiD
         postResFile << "GiD Post Results File 1.0\n";
 
+        //Se extrae la longitud de la lista de resultados
         int length;
         SDDS<DS<float>*>::extension(R, &length);
+
+        //Se recorre la lista de resultados
         for(int i = 0; i < length; i++){
+            //Se extrae el resultado actual, el cual es una matriz de dimensiones
+            //n x 1, donde n es el total de nodos en la malla
             DS<float>* temp;
             SDDS<DS<float>*>::extract(R,i,&temp);
 
+            //Se colocan los encabezados para el resultado actual
             postResFile << "Result \"Temperature\" \"Load Case 1\" " << i+1 << " Scalar OnNodes\n";
             postResFile << "ComponentNames \"T\"\n";
             postResFile << "Values\n";
 
+            //Se extraen las dimensiones de la matriz actual de resultados
             int nrows, ncols;
             SDDS<float>::extension(temp, &nrows, &ncols);
+
+            //Sabiendo que la matriz es un vector columna, se recorre de manera
+            //similar a un arreglo
             for(int f = 0; f < nrows; f++){
+                //Se extrae el resultado actual
                 float value;
-                SDDS<float>::extract(temp, f, 0, &value);
+                SDDS<float>::extract(temp, f, 0, &value);   //Todo se encuentra en la primera, y única, columna
+
+                //Se coloca el resultado actual precedido de un correlativo
                 postResFile << f+1 << "     " << value << "\n";
             }
 
+            //Se coloca un cierre para el resultado actual
             postResFile << "End values\n";
         }
 
+        //Se cierra al archivo ya que ha terminado el proceso de escritura
         postResFile.close();
-    }else{
+    }
+    //Si la apertura falló, se informa y se termina el programa
+    else{
         cout << "Problem opening the output file. :(\n";
         exit(EXIT_FAILURE);
     }
