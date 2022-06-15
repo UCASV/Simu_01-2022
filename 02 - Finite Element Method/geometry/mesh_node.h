@@ -31,6 +31,15 @@ class FEMNode{
             P = punto;
         }
 
+        /********** Destructor ************/
+        /*
+            El destructor se encarga de liberar la memoria
+            asignada para el Punto privado.
+        */
+        ~FEMNode(){
+            delete P;
+        }
+
         /********* Setters y Getters para los atributos *************/
         void set_ID(int identifier){
             ID = identifier;

@@ -67,7 +67,22 @@ class Math{
 
             //Se determina la función auxiliar a invocar
             if(nrows == 2) return determinant2x2(M);
-            else           return determinant3x3(M);
+            else
+                if(nrows == 3) return determinant3x3(M);
+                else{
+                    float value, det = 0;
+                    DS<float>* temp;
+                    for(int j = 0; j < ncols; j++){
+                        SDDS<float>::create(&temp,nrows-1,ncols-1,MATRIX);
+                        reduce_matrix(temp,M,0,j);
+
+                        SDDS<float>::extract(M,0,j,&value);
+                        det += pow(-1,j)*value*determinant(temp);
+
+                        SDDS<float>::destroy(temp);
+                    }
+                    return det;
+                }
         }
 
         /*
@@ -444,13 +459,16 @@ class Math{
             //y la matriz adjunta
             DS<float> *Cof, *Adj;
 
+            int nrows, ncols;
+            SDDS<float>::extension(matrix,&nrows,&ncols);
+
             //Se define la matriz de cofactores como una matriz 3 x 3
-            SDDS<float>::create(&Cof,3,3,MATRIX);
+            SDDS<float>::create(&Cof,nrows,ncols,MATRIX);
             //Se construye la matriz de cofactores
             cofactors(Cof, matrix);
 
             //Se define la matriz adjunta como una matriz 3 x 3
-            SDDS<float>::create(&Adj,3,3,MATRIX);
+            SDDS<float>::create(&Adj,ncols,nrows,MATRIX);
             //Se construye la matriz adjunta como la transpuesta de
             //la matriz de cofactores
             transpose(Adj, Cof);
@@ -465,5 +483,89 @@ class Math{
 
             //Se retorna la matriz resultante del proceso
             return Adj;
+        }
+
+        static DS<float>* inverse_Cholesky(DS<float>* matrix){
+            int f, c;
+            float acum, value, other_value;
+            DS<float> *L, *U, *M;
+
+            SDDS<float>::extension(matrix, &f, &c);
+            SDDS<float>::create(&L, f, c, MATRIX);
+            SDDS<float>::create(&U, f, c, MATRIX);
+            SDDS<float>::create(&M, f, c, MATRIX);
+
+            for(int i= 0; i < f; i++){
+                for(int j= 0; j < c; j++){
+                    if(i == j){
+                        acum = 0;
+                        for(int k = 0; k < j; k++){
+                            SDDS<float>::extract(L, j, k, &value);
+                            acum += pow(value,2);
+                        }
+                        SDDS<float>::extract(matrix, j, j, &value);
+                        SDDS<float>::insert(L, j, j, sqrt(value - acum));
+                    }
+                    else{
+                        if(i > j){
+                            acum = 0;
+                            for(int k = 0; k < j; k++){
+                                SDDS<float>::extract(L, i, k, &value);
+                                SDDS<float>::extract(L, j, k, &other_value);
+                                acum += value*other_value;
+                            }
+                            SDDS<float>::extract(L, j, j, &value);
+                            SDDS<float>::extract(matrix, i, j, &other_value);
+                            SDDS<float>::insert(L, i, j, (1/value)*(other_value - acum));
+                        } 
+                        else{
+                            SDDS<float>::insert(L, i, j, 0);
+                        }
+                    }
+                }
+            }
+
+            for(int i= 0; i < f; i++){
+                for(int j= 0; j < c; j++){
+                    if(i == j){
+                        SDDS<float>::extract(L, j, j, &value);
+                        SDDS<float>::insert(U, j, j, 1/value);
+                    }
+                    else{
+                        if(i > j){
+                            acum = 0;
+                            for(int k = j; k < i; k++){
+                                SDDS<float>::extract(L, i, k, &value);
+                                SDDS<float>::extract(U, k, j, &other_value);
+                                acum += value*other_value;
+                            }
+                            SDDS<float>::extract(L, i, i, &value);
+                            SDDS<float>::insert(U, i, j, -(1/value)*acum);
+                        }
+                        else{
+                            SDDS<float>::insert(U, i, j, 0);
+                        }
+                    }
+                }
+            }
+
+            for(int i= f-1; i >= 0; i--){
+                for(int j= 0; j < c; j++){
+                    acum = 0;
+                    for(int k = i+1; k < f; k++){
+                        SDDS<float>::extract(L, k, i, &value);
+                        SDDS<float>::extract(M, k, j, &other_value);
+                        acum += value*other_value;
+                    }
+                    SDDS<float>::extract(L, i, i, &value);
+                    SDDS<float>::extract(U, i, j, &other_value);
+                    SDDS<float>::insert(M, i, j, (1/value)*( ((i>=j)?other_value:0) - acum ));
+                }
+            }
+
+            SDDS<float>::destroy(L);
+            SDDS<float>::destroy(U);
+
+            return M;
         }
 };

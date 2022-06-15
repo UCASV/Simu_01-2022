@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <cmath>
+#define PAUSE int n; cin >> n;
 
 using namespace std;
 
@@ -44,6 +45,23 @@ using namespace std;
 */
 template <typename T>
 Data SDDS<T>::ref = Data();
+
+void free_list(DS<DS<float>*>* L){
+    //Se calcula la longitud de la lista
+    int length;
+    SDDS<DS<float>*>::extension(L, &length);
+    //Se recorre la lista
+    for(int i = 0; i < length; i++){
+        //Se extrae la matriz actual
+        DS<float>* temp;
+        SDDS<DS<float>*>::extract(L,i,&temp);
+
+        //Se libera el espacio en memoria de la matriz actual
+        SDDS<float>::destroy(temp);
+    }
+    //Se libera el espacio en memoria de la lista de resultados
+    SDDS<DS<float>*>::destroy(L);
+}
 
 /*
     Procedimiento principal para la implementación del Método de los
@@ -238,9 +256,14 @@ int main(int argc, char** argv){
         Math::product_in_place(b, dt);
         //Se multiplica el resultado anterior por la inversa de la matriz M, y el resultado se añade a los
         //resultados del tiempo actual, obteniendo así los resultados del siguiente tiempo
-        Math::sum_in_place(T, Math::product( Math::inverse(M), b ) );
+        //SDDS<float>::show(M,false);
+        DS<float>* temp2 = Math::inverse(M);
+        //DS<float>* temp2 = Math::inverse_Cholesky(M);
+        //SDDS<float>::show(temp2,false);
+        DS<float>* temp3 = Math::product( temp2, b );
+        Math::sum_in_place(T, temp3 );
         //La matriz temp ya no será utilizada, por lo que se libera su espacio en memoria
-        SDDS<float>::destroy(temp);
+        SDDS<float>::destroy(temp);SDDS<float>::destroy(temp2);SDDS<float>::destroy(temp3);
 
         cout << "OK\n\n\tUpdating list of results... ";
 
@@ -252,9 +275,12 @@ int main(int argc, char** argv){
         cout << "OK\n\nCleaning up and advancing in time... ";
 
         //Se libera todo el espacio en memoria utilizado en el tiempo actual
-        SDDS<float>::destroy(M); SDDS<DS<float>*>::destroy(M_locals);
-        SDDS<float>::destroy(K); SDDS<DS<float>*>::destroy(K_locals);
-        SDDS<float>::destroy(b); SDDS<DS<float>*>::destroy(b_locals);
+        free_list(M_locals);
+        free_list(K_locals);
+        free_list(b_locals);
+        SDDS<float>::destroy(M);
+        SDDS<float>::destroy(K);
+        SDDS<float>::destroy(b);
 
         //Avanzamos al siguiente tiempo a calcular
         t = t + dt;
@@ -279,20 +305,11 @@ int main(int argc, char** argv){
     SDDS<int>::destroy(dirichlet_indices); SDDS<int>::destroy(neumann_indices);
     //Para la lista de resultados, por estar compuesta por otras estructuras de datos,
     //es necesario liberar una por una:
-    //Se calcula la longitud de la lista
-    int length;
-    SDDS<DS<float>*>::extension(Result, &length);
-    //Se recorre la lista
-    for(int i = 0; i < length; i++){
-        //Se extrae la matriz actual
-        DS<float>* temp;
-        SDDS<DS<float>*>::extract(Result,i,&temp);
+    
+    free_list(Result);
 
-        //Se libera el espacio en memoria de la matriz actual
-        SDDS<float>::destroy(temp);
-    }
-    //Se libera el espacio en memoria de la lista de resultados
-    SDDS<DS<float>*>::destroy(Result);
+    //Se libera el objeto Mesh
+    delete G;
     
     cout << "OK\n\nHave a nice day!! :D\n";
     

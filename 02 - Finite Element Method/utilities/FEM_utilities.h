@@ -50,7 +50,7 @@ class FEM{
             Se reciben <P1>, <P2> y <P3> como los puntos que definen los nodos del elemento.
         */
         static float calculate_local_Area(Point* P1, Point* P2, Point* P3){
-            return abs((P1->get_x()*( P2->get_y() - P3->get_y() ) + P2->get_x()*( P3->get_y() - P1->get_y() ) + P3->get_x()*( P1->get_y() - P2->get_y() ))/2);
+            return ((P1->get_x()*( P2->get_y() - P3->get_y() ) + P2->get_x()*( P3->get_y() - P1->get_y() ) + P3->get_x()*( P1->get_y() - P2->get_y() ))/2);
         }
 
         /*
@@ -327,7 +327,10 @@ class FEM{
             Math::transpose(B_T, B);
 
             //Se efectúa B^T * A^T * A * B y el resultado se almacena en <K>
-            K = Math::product( Math::product( Math::product( B_T, A_T ), A ), B );
+            DS<float>* temp = Math::product( B_T, A_T );
+            DS<float>* temp2 = Math::product( temp, A );
+            K = Math::product( temp2, B );
+            SDDS<float>::destroy(temp);SDDS<float>::destroy(temp2);
 
             //Se multiplica el contenido de la matriz K por el factor k*Area/D^2
             Math::product_in_place(K, thermal_k*Area/(D*D));
