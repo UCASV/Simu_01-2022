@@ -257,8 +257,8 @@ int main(int argc, char** argv){
         //Se multiplica el resultado anterior por la inversa de la matriz M, y el resultado se añade a los
         //resultados del tiempo actual, obteniendo así los resultados del siguiente tiempo
         //SDDS<float>::show(M,false);
-        DS<float>* temp2 = Math::inverse(M);
-        //DS<float>* temp2 = Math::inverse_Cholesky(M);
+        //DS<float>* temp2 = Math::inverse(M);
+        DS<float>* temp2 = Math::inverse_Cholesky(M);
         //SDDS<float>::show(temp2,false);
         DS<float>* temp3 = Math::product( temp2, b );
         Math::sum_in_place(T, temp3 );

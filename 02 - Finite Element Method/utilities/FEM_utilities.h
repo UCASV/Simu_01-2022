@@ -35,7 +35,7 @@ class FEM{
             del elemento.
         */
         static float calculate_local_J(Point* P1, Point* P2, Point* P3){
-            return (P2->get_x() - P1->get_x())*(P3->get_y() - P1->get_y()) - (P3->get_x() - P1->get_x())*(P2->get_y() - P1->get_y());
+            return abs((P2->get_x() - P1->get_x())*(P3->get_y() - P1->get_y()) - (P3->get_x() - P1->get_x())*(P2->get_y() - P1->get_y()));  //o_O
         }
 
         /*

@@ -1,0 +1,8 @@
+NUMBER: 1 CONDITION: Dirichlet
+CONDTYPE: over lines
+CONDMESHTYPE: over nodes
+END CONDITION
+NUMBER: 2 CONDITION: Neumann
+CONDTYPE: over lines
+CONDMESHTYPE: over nodes
+END CONDITION
