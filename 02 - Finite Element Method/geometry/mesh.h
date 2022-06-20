@@ -91,12 +91,16 @@ class Mesh{
         */
         void init_geometry(){
             int n;                                                  //Variable auxiliar para el proceso
+            
             SDDS<int>::extract(quantities,NUM_NODES,&n);            //Se extrae la cantidad de nodos
             SDDS<FEMNode*>::create(&nodes,n,ARRAY);                 //Se inicializa el arreglo de nodos
+            
             SDDS<int>::extract(quantities,NUM_ELEMENTS,&n);         //Se extrae la cantidad de elementos
             SDDS<Element*>::create(&elements,n,ARRAY);              //Se inicializa el arreglo de elementos
+            
             SDDS<int>::extract(quantities,NUM_DIRICHLET_BCs,&n);    //Se extrae la cantidad de nodos con condición de Dirichlet
             SDDS<FEMNode*>::create(&dirichlet_conditions,n,ARRAY);  //Se inicializa el arreglo de condiciones de Dirichlet
+            
             SDDS<int>::extract(quantities,NUM_NEUMANN_BCs,&n);      //Se extrae la cantidad de nodos con condición de Neumann
             SDDS<FEMNode*>::create(&neumann_conditions,n,ARRAY);    //Se inicializa el arreglo de condiciones de Neumann
         }

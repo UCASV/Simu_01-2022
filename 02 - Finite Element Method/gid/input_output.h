@@ -50,6 +50,7 @@ void read_input_file(Mesh* G, char* filename){
             - La cantidad de nodos con condición de Dirichlet (ndirichlet).
             - La cantidad de nodos con condición de Neumann (nneumann).
         */
+
         datFile >> rho >> Cp >> k >> Q >> Td >> Tn >> initial_T >> delta_t >> t_0 >> t_f >> nnodes >> nelems >> ndirichlet >> nneumann;
         //Se colocan los parámetros en el objeto Mesh
         G->set_parameters(rho,Cp,k,Q,Td,Tn,initial_T,delta_t,t_0,t_f);
