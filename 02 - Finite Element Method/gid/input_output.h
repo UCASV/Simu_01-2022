@@ -68,7 +68,20 @@ void read_input_file(Mesh* G, char* filename){
             datFile >> index >> x >> y;
             //Se crea un nuevo punto con las coordenadas extraídas, y con este punto y el ID extraído
             //se crea un nuevo nodo y se añade en el arreglo de nodos del objeto Mesh
-            G->add_node( new FEMNode(index, new Point(x,y) ), i );
+
+            //Point* P = new Point(x,y);
+            Point* P = new Point();
+            P->set_x(x);
+            P->set_y(y);
+
+            //FEMNode* node = new FEMNode(index, P);
+            FEMNode* node = new FEMNode();
+            node->set_ID(index);
+            node->set_Point(P);
+
+            G->add_node(node, i);
+
+            //G->add_node( new FEMNode(index, new Point(x,y) ), i );
         }
 
         //Se salta la línea de cierre del bloque de datos de los nodos de la malla, y

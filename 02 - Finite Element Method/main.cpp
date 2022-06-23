@@ -188,6 +188,9 @@ int main(int argc, char** argv){
 
             cout << "\t\tCalculating local systems... ";
             //Se calcula la M local y se añade al listado de matrices M. Se envían la densidad y el calor específico del material
+
+            //FEM::calculate_local_M(G->get_parameter(DENSITY), G->get_parameter(SPECIFIC_HEAT), current_elem)
+
             SDDS<DS<float>*>::insert(M_locals, e, FEM::calculate_local_M(G->get_parameter(DENSITY), G->get_parameter(SPECIFIC_HEAT), current_elem));
             //Se calcula la K local y se añade al listado de matrices K. Se envía la conductividad térmica del material
             SDDS<DS<float>*>::insert(K_locals, e, FEM::calculate_local_K(G->get_parameter(THERMAL_CONDUCTIVITY), current_elem));

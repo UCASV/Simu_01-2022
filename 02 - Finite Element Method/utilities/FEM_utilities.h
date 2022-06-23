@@ -50,7 +50,7 @@ class FEM{
             Se reciben <P1>, <P2> y <P3> como los puntos que definen los nodos del elemento.
         */
         static float calculate_local_Area(Point* P1, Point* P2, Point* P3){
-            return ((P1->get_x()*( P2->get_y() - P3->get_y() ) + P2->get_x()*( P3->get_y() - P1->get_y() ) + P3->get_x()*( P1->get_y() - P2->get_y() ))/2);
+            return (abs(P1->get_x()*( P2->get_y() - P3->get_y() ) + P2->get_x()*( P3->get_y() - P1->get_y() ) + P3->get_x()*( P1->get_y() - P2->get_y() ))/2);
         }
 
         /*
@@ -284,6 +284,22 @@ class FEM{
             siguiente manera:
 
                         K = (k*Area/D^2) * B^T * A^T * A * B
+
+            Se puede operar desde la izquierda:
+
+            ((B^T * A^T) * A) * B
+
+            res1 = B^T * A^T
+            res2 = res1 * A
+            res3 = res2 * B
+
+            Se puede operar desde la derecha:
+
+            B^T * (A^T * (A * B))
+
+            res1 = A * B
+            res2 = A^T * res1
+            res3 = B^T * res2
 
             Donde <Area> es el área del elemento.
 
