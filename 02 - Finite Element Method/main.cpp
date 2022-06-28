@@ -217,9 +217,11 @@ int main(int argc, char** argv){
             //Se extrae la matriz M del elemento actual y se envía a ensamblaje
             SDDS<DS<float>*>::extract(M_locals,e,&temp);
             FEM::assembly(M, temp, current_elem, true);  //Se indica que ensamblará una matriz 3 x 3
+
             //Se extrae la matriz K del elemento actual y se envía a ensamblaje
             SDDS<DS<float>*>::extract(K_locals,e,&temp);
             FEM::assembly(K, temp, current_elem, true);
+
             //Se extrae la matriz b del elemento actual y se envía a ensamblaje
             SDDS<DS<float>*>::extract(b_locals,e,&temp);
             FEM::assembly(b, temp, current_elem, false); //Se indica que ensamblará una matriz 3 x 1
@@ -244,6 +246,10 @@ int main(int argc, char** argv){
             Se procede a ejecutar la ecuación de transferencia de calor en su versión discretizada con Forward Euler:
 
                         T^(i+1) = T^i + M^(-1) * delta_t * ( b - K * T^i )
+
+
+
+
 
             En la expresión anterior, a la matriz b ya se le han incorporado el vector columna de las condiciones
             de Neumann, y el vector columna generado por la aplicación de las condiciones de Dirichlet.
@@ -303,7 +309,7 @@ int main(int argc, char** argv){
 
     cout << "OK\n\nCleaning up and finalizing process... ";
 
-    //Se libera el espacio en memoria asignado para todas las estructuras utilizadas
+    //Se libera el espacio en memori0a asignado para todas las estructuras utilizadas
     SDDS<float>::destroy(T); SDDS<float>::destroy(T_full); SDDS<float>::destroy(T_N);
     SDDS<int>::destroy(dirichlet_indices); SDDS<int>::destroy(neumann_indices);
     //Para la lista de resultados, por estar compuesta por otras estructuras de datos,

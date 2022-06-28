@@ -423,9 +423,13 @@ class FEM{
             //por lo que se colocan en orden en el arreglo de enteros.
             //El conteo de los nodos comienza en 1, se resta 1 a cada dato extraído para ajustarlos
             //al conteo de posiciones de las matrices, que comienza en 0.
-            SDDS<int>::insert(indices,0, elem->get_Node(0)->get_ID() - 1);
-            SDDS<int>::insert(indices,1, elem->get_Node(1)->get_ID() - 1);
-            SDDS<int>::insert(indices,2, elem->get_Node(2)->get_ID() - 1);
+            int index1 = elem->get_Node(0)->get_ID() - 1;
+            int index2 = elem->get_Node(1)->get_ID() - 1;
+            int index3 = elem->get_Node(2)->get_ID() - 1;
+
+            SDDS<int>::insert(indices,0, index1);
+            SDDS<int>::insert(indices,1, index2);
+            SDDS<int>::insert(indices,2, index3);
             
             //Variables auxiliares para el proceso
             float temp;
